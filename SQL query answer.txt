@@ -1,0 +1,16 @@
+SELECT 
+    B.Business AS Business,
+    COALESCE(P.StreetNo, '') AS StreetNo,
+    P.Street AS Street,
+    P.PostCode AS PostCode,
+    COALESCE(SUM(F.Count), 0) AS FootfallCount
+FROM 
+    Premises P
+LEFT JOIN 
+    Footfall F ON P.Id = F.PremisesId
+LEFT JOIN 
+    Businesses B ON P.BusinessId = B.Id
+GROUP BY 
+    B.Business, P.StreetNo, P.Street, P.PostCode
+ORDER BY 
+    B.Business, P.StreetNo, P.Street, P.PostCode;
